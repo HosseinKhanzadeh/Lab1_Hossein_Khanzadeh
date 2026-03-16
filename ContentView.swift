@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var correctAnswers: Int = 0
     @State private var wrongAnswers: Int = 0
     @State private var feedbackMessage: String = ""
+    @State private var wasLastAnswerCorrect: Bool? = nil
     
     var body: some View {
         VStack(spacing: 30) {
@@ -40,12 +41,22 @@ struct ContentView: View {
                 .background(Color.red.opacity(0.8))
                 .foregroundColor(.white)
                 .cornerRadius(10)
-                
             }
             
-            Text(feedbackMessage)
-                .font(.headline)
-                .frame(height: 30)
+            HStack(spacing: 8) {
+                if let wasLastAnswerCorrect {
+                    Image(systemName: wasLastAnswerCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .foregroundColor(wasLastAnswerCorrect ? .green : .red)
+                    
+                    Text(feedbackMessage)
+                        .foregroundColor(wasLastAnswerCorrect ? .green : .red)
+                        .fontWeight(.semibold)
+                } else {
+                    Text(" ")
+                }
+            }
+            .font(.headline)
+            .frame(height: 30)
             
             Spacer()
             
@@ -70,9 +81,11 @@ struct ContentView: View {
         if PrimeHelper.isPrime(currentNumber) {
             correctAnswers += 1
             feedbackMessage = "Correct!"
+            wasLastAnswerCorrect = true
         } else {
             wrongAnswers += 1
             feedbackMessage = "Wrong!"
+            wasLastAnswerCorrect = false
         }
     }
     
@@ -80,9 +93,11 @@ struct ContentView: View {
         if !PrimeHelper.isPrime(currentNumber) {
             correctAnswers += 1
             feedbackMessage = "Correct!"
+            wasLastAnswerCorrect = true
         } else {
             wrongAnswers += 1
             feedbackMessage = "Wrong!"
+            wasLastAnswerCorrect = false
         }
     }
 }
