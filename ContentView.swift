@@ -82,6 +82,8 @@ struct ContentView: View {
         .onReceive(timer) { _ in
             if timeRemaining > 0 {
                 timeRemaining -= 1
+            } else {
+                handleTimeout()
             }
         }
     }
@@ -110,6 +112,15 @@ struct ContentView: View {
             feedbackMessage = "Wrong!"
             wasLastAnswerCorrect = false
         }
+        
+        timeRemaining = 5
+        generateRandomNumber()
+    }
+    
+    private func handleTimeout() {
+        wrongAnswers += 1
+        feedbackMessage = "Time's up!"
+        wasLastAnswerCorrect = false
         
         timeRemaining = 5
         generateRandomNumber()
