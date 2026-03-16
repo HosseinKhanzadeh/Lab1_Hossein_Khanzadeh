@@ -25,7 +25,7 @@ struct ContentView: View {
             HStack(spacing: 20) {
                 
                 Button("Prime") {
-                    
+                    checkPrimeSelection()
                 }
                 .frame(width: 120, height: 50)
                 .background(Color.green.opacity(0.8))
@@ -59,6 +59,14 @@ struct ContentView: View {
     
     private func generateRandomNumber() {
         currentNumber = Int.random(in: 1...100)
+    }
+    
+    private func checkPrimeSelection() {
+        if PrimeHelper.isPrime(currentNumber) {
+            correctAnswers += 1
+        } else {
+            wrongAnswers += 1
+        }
     }
 }
 
