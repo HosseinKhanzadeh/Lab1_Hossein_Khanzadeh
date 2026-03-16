@@ -78,21 +78,17 @@ struct ContentView: View {
     }
     
     private func checkPrimeSelection() {
-        if PrimeHelper.isPrime(currentNumber) {
-            correctAnswers += 1
-            feedbackMessage = "Correct!"
-            wasLastAnswerCorrect = true
-        } else {
-            wrongAnswers += 1
-            feedbackMessage = "Wrong!"
-            wasLastAnswerCorrect = false
-        }
-        
-        generateRandomNumber()
+        handleAnswer(userThinksPrime: true)
     }
     
     private func checkNotPrimeSelection() {
-        if !PrimeHelper.isPrime(currentNumber) {
+        handleAnswer(userThinksPrime: false)
+    }
+    
+    private func handleAnswer(userThinksPrime: Bool) {
+        let actualIsPrime = PrimeHelper.isPrime(currentNumber)
+        
+        if userThinksPrime == actualIsPrime {
             correctAnswers += 1
             feedbackMessage = "Correct!"
             wasLastAnswerCorrect = true
