@@ -89,7 +89,9 @@ struct ContentView: View {
             }
         }
         .alert("Round Summary", isPresented: $showSummaryAlert) {
-            Button("OK") { }
+            Button("OK") {
+                prepareNextRoundAfterSummary()
+            }
         } message: {
             Text("Correct answers: \(correctAnswers)\nWrong answers: \(wrongAnswers)")
         }
@@ -143,6 +145,13 @@ struct ContentView: View {
         if attemptCount > 0 && attemptCount % 10 == 0 {
             showSummaryAlert = true
         }
+    }
+    
+    private func prepareNextRoundAfterSummary() {
+        feedbackMessage = ""
+        wasLastAnswerCorrect = nil
+        timeRemaining = 5
+        generateRandomNumber()
     }
 }
 
