@@ -111,6 +111,7 @@ struct ContentView: View {
             wasLastAnswerCorrect = false
         }
         
+        timeRemaining = 5
         generateRandomNumber()
     }
 }
