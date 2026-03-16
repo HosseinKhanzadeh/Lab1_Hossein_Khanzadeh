@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var currentNumber: Int = 0
     @State private var correctAnswers: Int = 0
     @State private var wrongAnswers: Int = 0
+    @State private var feedbackMessage: String = ""
     
     var body: some View {
         VStack(spacing: 30) {
@@ -42,6 +43,10 @@ struct ContentView: View {
                 
             }
             
+            Text(feedbackMessage)
+                .font(.headline)
+                .frame(height: 30)
+            
             Spacer()
             
             VStack {
@@ -64,16 +69,20 @@ struct ContentView: View {
     private func checkPrimeSelection() {
         if PrimeHelper.isPrime(currentNumber) {
             correctAnswers += 1
+            feedbackMessage = "Correct!"
         } else {
             wrongAnswers += 1
+            feedbackMessage = "Wrong!"
         }
     }
     
     private func checkNotPrimeSelection() {
         if !PrimeHelper.isPrime(currentNumber) {
             correctAnswers += 1
+            feedbackMessage = "Correct!"
         } else {
             wrongAnswers += 1
+            feedbackMessage = "Wrong!"
         }
     }
 }
