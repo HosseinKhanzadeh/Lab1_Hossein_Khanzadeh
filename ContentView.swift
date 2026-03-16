@@ -43,6 +43,7 @@ struct ContentView: View {
                 .background(Color.green.opacity(0.8))
                 .foregroundColor(.white)
                 .cornerRadius(10)
+                .disabled(showSummaryAlert)
                 
                 Button("Not Prime") {
                     checkNotPrimeSelection()
@@ -51,6 +52,7 @@ struct ContentView: View {
                 .background(Color.red.opacity(0.8))
                 .foregroundColor(.white)
                 .cornerRadius(10)
+                .disabled(showSummaryAlert)
             }
             
             HStack(spacing: 8) {
@@ -82,6 +84,8 @@ struct ContentView: View {
             generateRandomNumber()
         }
         .onReceive(timer) { _ in
+            guard !showSummaryAlert else { return }
+            
             if timeRemaining > 0 {
                 timeRemaining -= 1
             } else {
