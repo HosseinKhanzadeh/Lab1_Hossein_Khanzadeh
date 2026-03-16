@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var feedbackMessage: String = ""
     @State private var wasLastAnswerCorrect: Bool? = nil
     @State private var timeRemaining: Int = 5
+    @State private var showSummaryAlert: Bool = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -87,6 +88,11 @@ struct ContentView: View {
                 handleTimeout()
             }
         }
+        .alert("Round Summary", isPresented: $showSummaryAlert) {
+            Button("OK") { }
+        } message: {
+            Text("Correct answers: \(correctAnswers)\nWrong answers: \(wrongAnswers)")
+        }
     }
     
     private func generateRandomNumber() {
@@ -115,6 +121,7 @@ struct ContentView: View {
         }
         
         attemptCount += 1
+        checkForSummary()
         
         timeRemaining = 5
         generateRandomNumber()
@@ -126,9 +133,16 @@ struct ContentView: View {
         wasLastAnswerCorrect = false
         
         attemptCount += 1
+        checkForSummary()
         
         timeRemaining = 5
         generateRandomNumber()
+    }
+    
+    private func checkForSummary() {
+        if attemptCount > 0 && attemptCount % 10 == 0 {
+            showSummaryAlert = true
+        }
     }
 }
 
