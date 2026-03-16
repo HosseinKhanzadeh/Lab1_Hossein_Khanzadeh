@@ -2,6 +2,10 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var currentNumber: Int = 0
+    @State private var correctAnswers: Int = 0
+    @State private var wrongAnswers: Int = 0
+    
     var body: some View {
         VStack(spacing: 30) {
             
@@ -15,7 +19,7 @@ struct ContentView: View {
             
             Spacer()
             
-            Text("17")
+            Text("\(currentNumber)")
                 .font(.system(size: 72, weight: .bold))
             
             HStack(spacing: 20) {
@@ -41,13 +45,20 @@ struct ContentView: View {
             Spacer()
             
             VStack {
-                Text("Correct: 0")
-                Text("Wrong: 0")
+                Text("Correct: \(correctAnswers)")
+                Text("Wrong: \(wrongAnswers)")
             }
             .font(.headline)
             
         }
         .padding()
+        .onAppear {
+            generateRandomNumber()
+        }
+    }
+    
+    private func generateRandomNumber() {
+        currentNumber = Int.random(in: 1...100)
     }
 }
 
