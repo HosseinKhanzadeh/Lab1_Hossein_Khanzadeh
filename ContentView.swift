@@ -87,6 +87,8 @@ struct ContentView: View {
             feedbackMessage = "Wrong!"
             wasLastAnswerCorrect = false
         }
+        
+        generateRandomNumber()
     }
     
     private func checkNotPrimeSelection() {
@@ -99,6 +101,8 @@ struct ContentView: View {
             feedbackMessage = "Wrong!"
             wasLastAnswerCorrect = false
         }
+        
+        generateRandomNumber()
     }
 }
 
