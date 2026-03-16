@@ -28,6 +28,10 @@ struct ContentView: View {
             Text("Time Left: \(timeRemaining)s")
                 .font(.headline)
                 .foregroundColor(.blue)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color.blue.opacity(0.12))
+                .cornerRadius(12)
             
             Spacer()
             
@@ -72,11 +76,18 @@ struct ContentView: View {
             
             Spacer()
             
-            VStack {
+            VStack(spacing: 8) {
+                Text("Score")
+                    .font(.headline)
+                
                 Text("Correct: \(correctAnswers)")
                 Text("Wrong: \(wrongAnswers)")
             }
             .font(.headline)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.gray.opacity(0.12))
+            .cornerRadius(16)
             
         }
         .padding()
