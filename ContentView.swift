@@ -33,7 +33,7 @@ struct ContentView: View {
                 .cornerRadius(10)
                 
                 Button("Not Prime") {
-                    
+                    checkNotPrimeSelection()
                 }
                 .frame(width: 120, height: 50)
                 .background(Color.red.opacity(0.8))
@@ -63,6 +63,14 @@ struct ContentView: View {
     
     private func checkPrimeSelection() {
         if PrimeHelper.isPrime(currentNumber) {
+            correctAnswers += 1
+        } else {
+            wrongAnswers += 1
+        }
+    }
+    
+    private func checkNotPrimeSelection() {
+        if !PrimeHelper.isPrime(currentNumber) {
             correctAnswers += 1
         } else {
             wrongAnswers += 1
