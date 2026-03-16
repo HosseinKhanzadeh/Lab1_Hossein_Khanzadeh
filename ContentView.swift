@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var wrongAnswers: Int = 0
     @State private var feedbackMessage: String = ""
     @State private var wasLastAnswerCorrect: Bool? = nil
+    @State private var timeRemaining: Int = 5
     
     var body: some View {
         VStack(spacing: 30) {
@@ -18,6 +19,10 @@ struct ContentView: View {
             Text("Decide whether the number shown is prime.")
                 .font(.subheadline)
                 .foregroundColor(.gray)
+            
+            Text("Time Left: \(timeRemaining)s")
+                .font(.headline)
+                .foregroundColor(.blue)
             
             Spacer()
             
