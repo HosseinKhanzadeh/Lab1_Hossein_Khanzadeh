@@ -14,83 +14,133 @@ struct ContentView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    private var summaryMessage: String {
+        "Correct answers: \(correctAnswers)\nWrong answers: \(wrongAnswers)"
+    }
+    
     var body: some View {
-        VStack(spacing: 30) {
+        ZStack {
+            backgroundColor
+                .ignoresSafeArea()
             
-            Text("Prime Number Game")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            Text("Decide whether the number shown is prime.")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-            
-            Text("Time Left: \(timeRemaining)s")
-                .font(.headline)
-                .foregroundColor(.blue)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(Color.blue.opacity(0.12))
-                .cornerRadius(12)
-            
-            Spacer()
-            
-            Text("\(currentNumber)")
-                .font(.system(size: 72, weight: .bold))
-            
-            HStack(spacing: 20) {
+            VStack(spacing: 28) {
                 
-                Button("Prime") {
-                    checkPrimeSelection()
-                }
-                .frame(width: 120, height: 50)
-                .background(Color.green.opacity(0.8))
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .disabled(showSummaryAlert)
-                
-                Button("Not Prime") {
-                    checkNotPrimeSelection()
-                }
-                .frame(width: 120, height: 50)
-                .background(Color.red.opacity(0.8))
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .disabled(showSummaryAlert)
-            }
-            
-            HStack(spacing: 8) {
-                if let wasLastAnswerCorrect {
-                    Image(systemName: wasLastAnswerCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .foregroundColor(wasLastAnswerCorrect ? .green : .red)
+                VStack(spacing: 6) {
+                    Text("Prime Number Game")
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                        .foregroundColor(primaryAccentColor)
                     
-                    Text(feedbackMessage)
-                        .foregroundColor(wasLastAnswerCorrect ? .green : .red)
-                        .fontWeight(.semibold)
-                } else {
-                    Text(" ")
+                    Text("Decide whether the number shown is prime.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
                 }
-            }
-            .font(.headline)
-            .frame(height: 30)
-            
-            Spacer()
-            
-            VStack(spacing: 8) {
-                Text("Score")
-                    .font(.headline)
+                .multilineTextAlignment(.center)
+                .padding(.top, 16)
                 
-                Text("Correct: \(correctAnswers)")
-                Text("Wrong: \(wrongAnswers)")
+                Text("Time Left: \(timeRemaining)s")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 18)
+                    .padding(.vertical, 8)
+                    .background(timerBadgeColor)
+                    .clipShape(Capsule())
+                    .shadow(color: timerBadgeColor.opacity(0.4), radius: 3, x: 0, y: 2)
+                
+                VStack(spacing: 16) {
+                    Text("\(currentNumber)")
+                        .font(.system(size: 72, weight: .bold, design: .rounded))
+                        .foregroundColor(primaryAccentColor)
+                    
+                    Text("Is this number prime?")
+                        .font(.headline)
+                        .foregroundColor(primaryAccentColor.opacity(0.9))
+                }
+                .padding(.vertical, 24)
+                .padding(.horizontal, 32)
+                .background(cardBackgroundColor)
+                .cornerRadius(24)
+                .shadow(color: primaryAccentColor.opacity(0.18), radius: 8, x: 0, y: 4)
+                
+                HStack(spacing: 20) {
+                    
+                    Button {
+                        checkPrimeSelection()
+                    } label: {
+                        Text("Prime")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                    }
+                    .background(primeButtonColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(16)
+                    .shadow(color: primeButtonColor.opacity(0.35), radius: 6, x: 0, y: 3)
+                    .disabled(showSummaryAlert)
+                    .opacity(showSummaryAlert ? 0.6 : 1.0)
+                    
+                    Button {
+                        checkNotPrimeSelection()
+                    } label: {
+                        Text("Not Prime")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                    }
+                    .background(secondaryButtonColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(16)
+                    .shadow(color: secondaryButtonColor.opacity(0.35), radius: 6, x: 0, y: 3)
+                    .disabled(showSummaryAlert)
+                    .opacity(showSummaryAlert ? 0.6 : 1.0)
+                }
+                .padding(.horizontal, 8)
+                
+                HStack(spacing: 8) {
+                    if let wasLastAnswerCorrect {
+                        Image(systemName: wasLastAnswerCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                            .foregroundColor(wasLastAnswerCorrect ? .green : .red)
+                        
+                        Text(feedbackMessage)
+                            .foregroundColor(wasLastAnswerCorrect ? .green : .red)
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                    } else {
+                        Text(" ")
+                    }
+                }
+                .frame(height: 32)
+                
+                Spacer()
+                
+                HStack(spacing: 16) {
+                    VStack(spacing: 6) {
+                        Text("Correct")
+                            .font(.subheadline)
+                            .foregroundColor(primaryAccentColor)
+                        Text("\(correctAnswers)")
+                            .font(.title2).bold()
+                            .foregroundColor(.green)
+                    }
+                    .frame(maxWidth: .infinity)
+                    
+                    VStack(spacing: 6) {
+                        Text("Wrong")
+                            .font(.subheadline)
+                            .foregroundColor(primaryAccentColor)
+                        Text("\(wrongAnswers)")
+                            .font(.title2).bold()
+                            .foregroundColor(.red)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .padding()
+                .background(cardBackgroundColor)
+                .cornerRadius(20)
+                .shadow(color: primaryAccentColor.opacity(0.12), radius: 6, x: 0, y: 3)
+                .padding(.bottom, 12)
             }
-            .font(.headline)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.gray.opacity(0.12))
-            .cornerRadius(16)
-            
+            .padding(.horizontal, 20)
         }
-        .padding()
         .onAppear {
             generateRandomNumber()
         }
@@ -108,7 +158,7 @@ struct ContentView: View {
                 prepareNextRoundAfterSummary()
             }
         } message: {
-            Text("Correct answers: \(correctAnswers)\nWrong answers: \(wrongAnswers)")
+            Text(summaryMessage)
         }
     }
     
@@ -167,6 +217,40 @@ struct ContentView: View {
         wasLastAnswerCorrect = nil
         timeRemaining = 5
         generateRandomNumber()
+    }
+}
+
+// MARK: - Palette Helpers
+
+private extension ContentView {
+    var backgroundColor: Color {
+        // #F1D8F8
+        Color(red: 241 / 255, green: 216 / 255, blue: 248 / 255)
+    }
+    
+    var primaryAccentColor: Color {
+        // #533E89
+        Color(red: 83 / 255, green: 62 / 255, blue: 137 / 255)
+    }
+    
+    var primeButtonColor: Color {
+        // #AC694D
+        Color(red: 172 / 255, green: 105 / 255, blue: 77 / 255)
+    }
+    
+    var secondaryButtonColor: Color {
+        // Using #533E89 as a strong secondary action
+        Color(red: 83 / 255, green: 62 / 255, blue: 137 / 255)
+    }
+    
+    var timerBadgeColor: Color {
+        // #D6B643
+        Color(red: 214 / 255, green: 182 / 255, blue: 67 / 255)
+    }
+    
+    var cardBackgroundColor: Color {
+        // Softer card treatment based on #F1D8F8
+        Color(red: 241 / 255, green: 216 / 255, blue: 248 / 255).opacity(0.9)
     }
 }
 
