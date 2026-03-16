@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var currentNumber: Int = 0
     @State private var correctAnswers: Int = 0
     @State private var wrongAnswers: Int = 0
+    @State private var attemptCount: Int = 0
     @State private var feedbackMessage: String = ""
     @State private var wasLastAnswerCorrect: Bool? = nil
     @State private var timeRemaining: Int = 5
@@ -113,6 +114,8 @@ struct ContentView: View {
             wasLastAnswerCorrect = false
         }
         
+        attemptCount += 1
+        
         timeRemaining = 5
         generateRandomNumber()
     }
@@ -121,6 +124,8 @@ struct ContentView: View {
         wrongAnswers += 1
         feedbackMessage = "Time's up!"
         wasLastAnswerCorrect = false
+        
+        attemptCount += 1
         
         timeRemaining = 5
         generateRandomNumber()
