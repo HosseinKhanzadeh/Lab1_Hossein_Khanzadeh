@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct ContentView: View {
     
@@ -8,6 +9,8 @@ struct ContentView: View {
     @State private var feedbackMessage: String = ""
     @State private var wasLastAnswerCorrect: Bool? = nil
     @State private var timeRemaining: Int = 5
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack(spacing: 30) {
@@ -75,6 +78,11 @@ struct ContentView: View {
         .padding()
         .onAppear {
             generateRandomNumber()
+        }
+        .onReceive(timer) { _ in
+            if timeRemaining > 0 {
+                timeRemaining -= 1
+            }
         }
     }
     
